@@ -2,7 +2,8 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import GUI from 'lil-gui'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
-
+import coffeSmokeVertexShader from './shaders/coffeeSmoke/vertex.glsl'
+import coffeSmokeFragmentShader from './shaders/coffeeSmoke/fragment.glsl'
 /**
  * Base
  */
@@ -82,13 +83,21 @@ gltfLoader.load(
 /* 
 Smoke
 */
+const perlinTexture = textureLoader.load('./perlin.png')
+
 const smokeGeometry = new THREE.PlaneGeometry(1, 1, 16, 64)
 smokeGeometry.translate(0, 0.5, 0)
 smokeGeometry.scale(1.5, 6, 1.5)
 
-const smokeMaterial = new THREE.MeshBasicMaterial({
-    color: 'cyan',
-    wireframe: true
+const smokeMaterial = new THREE.ShaderMaterial({
+    vertexShader: coffeSmokeVertexShader,
+    fragmentShader: coffeSmokeFragmentShader,
+    transparent: true,
+    uniforms: {
+        uPerlinTexture: new THREE.Uniform(perlinTexture)
+    },
+    side: THREE.DoubleSide,
+    // wireframe: true
 })
 
 const smoke = new THREE.Mesh(smokeGeometry, smokeMaterial)
