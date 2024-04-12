@@ -84,6 +84,8 @@ gltfLoader.load(
 Smoke
 */
 const perlinTexture = textureLoader.load('./perlin.png')
+perlinTexture.wrapS = THREE.RepeatWrapping
+perlinTexture.wrapT = THREE.RepeatWrapping
 
 const smokeGeometry = new THREE.PlaneGeometry(1, 1, 16, 64)
 smokeGeometry.translate(0, 0.5, 0)
@@ -94,7 +96,8 @@ const smokeMaterial = new THREE.ShaderMaterial({
     fragmentShader: coffeSmokeFragmentShader,
     transparent: true,
     uniforms: {
-        uPerlinTexture: new THREE.Uniform(perlinTexture)
+        uTime: new THREE.Uniform(0),
+        uPerlinTexture: new THREE.Uniform(perlinTexture),
     },
     side: THREE.DoubleSide,
     // wireframe: true
@@ -114,6 +117,8 @@ const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
 
+    // Update smoke
+    smokeMaterial.uniforms.uTime.value = elapsedTime
     // Update controls
     controls.update()
 
