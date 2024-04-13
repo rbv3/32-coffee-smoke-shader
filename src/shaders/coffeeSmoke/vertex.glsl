@@ -3,13 +3,7 @@ varying vec2 vUv;
 uniform sampler2D uPerlinTexture;
 uniform float uTime;
 
-vec2 rotate2D(vec2 value, float angle) {
-    float s = sin(angle);
-    float c = cos(angle);
-    mat2 m = mat2(c, s, -s, c);
-
-    return m * value;
-}
+#include ../includes/rotate2D.glsl
 
 void main() {
     vec3 newPosition = position;
