@@ -95,12 +95,12 @@ const smokeMaterial = new THREE.ShaderMaterial({
     vertexShader: coffeSmokeVertexShader,
     fragmentShader: coffeSmokeFragmentShader,
     transparent: true,
+    depthWrite: false,
     uniforms: {
         uTime: new THREE.Uniform(0),
         uPerlinTexture: new THREE.Uniform(perlinTexture),
     },
-    side: THREE.DoubleSide,
-    // wireframe: true
+    side: THREE.DoubleSide
 })
 
 const smoke = new THREE.Mesh(smokeGeometry, smokeMaterial)
